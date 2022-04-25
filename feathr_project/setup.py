@@ -45,6 +45,7 @@ setup(
         "azure-keyvault-secrets",
         "confluent-kafka",
         "avro",
+        "azure-core<=1.22.1"
         "typing_extensions>=4.2.0"
     ],
     tests_require=[
