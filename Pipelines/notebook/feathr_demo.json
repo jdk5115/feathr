@@ -17,14 +17,11 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "56338ee1-100b-450f-be04-056486fe8543"
+				"spark.autotune.trackingId": "0e612e21-7a24-4db5-86ca-70e3a8596141"
 			}
 		},
 		"metadata": {
 			"saveOutput": true,
-			"synapse_widget": {
-				"version": "0.1"
-			},
 			"enableDebugMode": false,
 			"kernelspec": {
 				"name": "synapse_pyspark",
@@ -46,7 +43,7 @@
 				"nodeCount": 3,
 				"cores": 8,
 				"memory": 56,
-				"extraHeader": null
+				"automaticScaleJobs": false
 			},
 			"sessionKeepAliveTimeout": 30
 		},
@@ -56,15 +53,13 @@
 				"source": [
 					"resource_prefix = \"feathr12345\""
 				],
-				"attachments": null,
-				"execution_count": 27
+				"execution_count": 41
 			},
 			{
 				"cell_type": "code",
 				"source": [
 					"pip install feathr azure-cli  pandavro scikit-learn"
 				],
-				"attachments": null,
 				"execution_count": 19
 			},
 			{
@@ -72,8 +67,31 @@
 				"source": [
 					"az login --use-device-code"
 				],
-				"attachments": null,
 				"execution_count": 21
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"import pkg_resources\r\n",
+					"\r\n",
+					"installed_packages = pkg_resources.working_set\r\n",
+					"installed_packages_list = sorted([\"%s==%s\" % (i.key, i.version)\r\n",
+					"   for i in installed_packages])\r\n",
+					"\r\n",
+					"print(installed_packages_list)"
+				],
+				"execution_count": 42
 			},
 			{
 				"cell_type": "code",
@@ -83,10 +101,13 @@
 					"import tempfile\n",
 					"from datetime import datetime, timedelta\n",
 					"from math import sqrt\n",
-					"\n",
+					"print(10)\n",
 					"import pandas as pd\n",
 					"import pandavro as pdx\n",
+					"\n",
+					"print(10)\n",
 					"from feathr import FeathrClient\n",
+					"print(10)\n",
 					"from feathr import BOOLEAN, FLOAT, INT32, ValueType\n",
 					"from feathr import Feature, DerivedFeature, FeatureAnchor\n",
 					"from feathr import BackfillTime, MaterializationSettings\n",
@@ -100,8 +121,7 @@
 					"from azure.identity import DefaultAzureCredential\n",
 					"from azure.keyvault.secrets import SecretClient"
 				],
-				"attachments": null,
-				"execution_count": 22
+				"execution_count": 32
 			},
 			{
 				"cell_type": "code",
@@ -136,7 +156,6 @@
 					"os.environ['feature_registry__purview__purview_name'] = f'{purview_name}'\n",
 					"feathr_output_path = f'abfss://{adls_fs_name}@{adls_account}.dfs.core.windows.net/feathr_output'"
 				],
-				"attachments": null,
 				"execution_count": null
 			},
 			{
@@ -199,7 +218,6 @@
 					"with open(tmp.name, \"w\") as text_file:\n",
 					"    text_file.write(yaml_config)"
 				],
-				"attachments": null,
 				"execution_count": null
 			},
 			{
@@ -213,7 +231,6 @@
 					"# # Optional envs if you are using different runtimes\n",
 					"# os.environ['DATABRICKS_WORKSPACE_TOKEN_VALUE'] = ''"
 				],
-				"attachments": null,
 				"execution_count": null
 			},
 			{
@@ -221,7 +238,6 @@
 				"source": [
 					"client = FeathrClient(config_path=tmp.name)"
 				],
-				"attachments": null,
 				"execution_count": null
 			},
 			{
@@ -230,7 +246,6 @@
 					"import pandas as pd\n",
 					"pd.read_csv(\"https://azurefeathrstorage.blob.core.windows.net/public/sample_data/green_tripdata_2020-04_with_index.csv\")"
 				],
-				"attachments": null,
 				"execution_count": null
 			},
 			{
@@ -248,7 +263,6 @@
 					"                          preprocessing=feathr_udf_day_calc,\n",
 					"                          timestamp_format=\"yyyy-MM-dd HH:mm:ss\")"
 				],
-				"attachments": null,
 				"execution_count": null
 			},
 			{
@@ -275,7 +289,6 @@
 					"                               source=INPUT_CONTEXT,\n",
 					"                               features=features)"
 				],
-				"attachments": null,
 				"execution_count": null
 			},
 			{
@@ -309,7 +322,6 @@
 					"                           source=batch_source,\n",
 					"                           features=agg_features)"
 				],
-				"attachments": null,
 				"execution_count": null
 			},
 			{
@@ -326,7 +338,6 @@
 					"                                     input_features=[f_trip_time_duration],\n",
 					"                                     transform=\"f_trip_time_duration % 10\")"
 				],
-				"attachments": null,
 				"execution_count": null
 			},
 			{
@@ -335,7 +346,6 @@
 					"client.build_features(anchor_list=[agg_anchor, request_anchor], derived_feature_list=[\n",
 					"                      f_trip_time_distance, f_trip_time_rounded])"
 				],
-				"attachments": null,
 				"execution_count": null
 			},
 			{
@@ -358,7 +368,6 @@
 					"                            output_path=output_path)\n",
 					"client.wait_job_to_finish(timeout_sec=500)"
 				],
-				"attachments": null,
 				"execution_count": null
 			},
 			{
@@ -379,7 +388,6 @@
 					"\n",
 					"df_res = get_result_df(client)"
 				],
-				"attachments": null,
 				"execution_count": null
 			},
 			{
@@ -388,7 +396,6 @@
 					"\n",
 					"df_res"
 				],
-				"attachments": null,
 				"execution_count": null
 			},
 			{
@@ -432,7 +439,6 @@
 					"print(\"Model Accuracy:\")\n",
 					"print(1 - mean_abs_percent_error)"
 				],
-				"attachments": null,
 				"execution_count": null
 			},
 			{
@@ -449,7 +455,6 @@
 					"client.materialize_features(settings)\n",
 					"client.wait_job_to_finish(timeout_sec=500)"
 				],
-				"attachments": null,
 				"execution_count": null
 			},
 			{
@@ -458,7 +463,6 @@
 					"res = client.get_online_features('nycTaxiDemoFeature', '265', [\n",
 					"                                 'f_location_avg_fare', 'f_location_max_fare'])"
 				],
-				"attachments": null,
 				"execution_count": null
 			},
 			{
@@ -467,7 +471,6 @@
 					"client.multi_get_online_features(\"nycTaxiDemoFeature\", [\"239\", \"265\"], [\n",
 					"                                 'f_location_avg_fare', 'f_location_max_fare'])"
 				],
-				"attachments": null,
 				"execution_count": null
 			}
 		]
