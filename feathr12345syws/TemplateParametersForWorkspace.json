@@ -1,0 +1,15 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"workspaceName": {
+			"value": "feathr12345syws"
+		},
+		"feathr12345syws-WorkspaceDefaultSqlServer_connectionString": {
+			"value": ""
+		},
+		"feathr12345syws-WorkspaceDefaultStorage_properties_typeProperties_url": {
+			"value": "https://feathr12345dls.dfs.core.windows.net/"
+		}
+	}
+}
