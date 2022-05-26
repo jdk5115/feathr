@@ -1,0 +1,9 @@
+{
+	"name": "feathr12345df",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "9b967ec1-de3b-47fa-849d-cd84db0f55ed",
+		"tenantId": "12afdb4f-cfca-4825-8df8-8b71396b8f7c"
+	}
+}
