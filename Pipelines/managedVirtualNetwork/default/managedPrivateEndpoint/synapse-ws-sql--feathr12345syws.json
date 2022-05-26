@@ -1,0 +1,10 @@
+{
+	"name": "synapse-ws-sql--feathr12345syws",
+	"properties": {
+		"privateLinkResourceId": "/subscriptions/d27c6b88-6870-4df2-8b38-43c16f0f9d52/resourceGroups/rg-jonathan/providers/Microsoft.Synapse/workspaces/feathr12345syws",
+		"groupId": "sql",
+		"fqdns": [
+			"feathr12345syws.d3a46b4e-b575-41c9-9364-3adbf44c04e1.sql.azuresynapse.net"
+		]
+	}
+}
