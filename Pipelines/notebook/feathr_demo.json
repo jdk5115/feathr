@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "0e612e21-7a24-4db5-86ca-70e3a8596141"
+				"spark.autotune.trackingId": "1f6c2b45-d31e-4a6a-9be5-bf519f34790c"
 			}
 		},
 		"metadata": {
@@ -67,7 +67,7 @@
 				"source": [
 					"az login --use-device-code"
 				],
-				"execution_count": 21
+				"execution_count": 25
 			},
 			{
 				"cell_type": "code",
@@ -101,13 +101,10 @@
 					"import tempfile\n",
 					"from datetime import datetime, timedelta\n",
 					"from math import sqrt\n",
-					"print(10)\n",
 					"import pandas as pd\n",
 					"import pandavro as pdx\n",
 					"\n",
-					"print(10)\n",
 					"from feathr import FeathrClient\n",
-					"print(10)\n",
 					"from feathr import BOOLEAN, FLOAT, INT32, ValueType\n",
 					"from feathr import Feature, DerivedFeature, FeatureAnchor\n",
 					"from feathr import BackfillTime, MaterializationSettings\n",
@@ -121,7 +118,7 @@
 					"from azure.identity import DefaultAzureCredential\n",
 					"from azure.keyvault.secrets import SecretClient"
 				],
-				"execution_count": 32
+				"execution_count": 23
 			},
 			{
 				"cell_type": "code",
@@ -156,7 +153,7 @@
 					"os.environ['feature_registry__purview__purview_name'] = f'{purview_name}'\n",
 					"feathr_output_path = f'abfss://{adls_fs_name}@{adls_account}.dfs.core.windows.net/feathr_output'"
 				],
-				"execution_count": null
+				"execution_count": 24
 			},
 			{
 				"cell_type": "code",
