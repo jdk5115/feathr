@@ -119,7 +119,7 @@
 						"spark.dynamicAllocation.enabled": "false",
 						"spark.dynamicAllocation.minExecutors": "2",
 						"spark.dynamicAllocation.maxExecutors": "2",
-						"spark.autotune.trackingId": "487ba5a5-dd79-4cf4-88ef-3175bf106b58"
+						"spark.autotune.trackingId": "2a33ba30-ac77-454f-9054-e60bd2863af7"
 					}
 				},
 				"metadata": {
@@ -175,7 +175,7 @@
 							"az login --use-device-code"
 						],
 						"outputs": [],
-						"execution_count": 21
+						"execution_count": 25
 					},
 					{
 						"cell_type": "code",
@@ -211,13 +211,10 @@
 							"import tempfile\n",
 							"from datetime import datetime, timedelta\n",
 							"from math import sqrt\n",
-							"print(10)\n",
 							"import pandas as pd\n",
 							"import pandavro as pdx\n",
 							"\n",
-							"print(10)\n",
 							"from feathr import FeathrClient\n",
-							"print(10)\n",
 							"from feathr import BOOLEAN, FLOAT, INT32, ValueType\n",
 							"from feathr import Feature, DerivedFeature, FeatureAnchor\n",
 							"from feathr import BackfillTime, MaterializationSettings\n",
@@ -232,7 +229,7 @@
 							"from azure.keyvault.secrets import SecretClient"
 						],
 						"outputs": [],
-						"execution_count": 32
+						"execution_count": 23
 					},
 					{
 						"cell_type": "code",
@@ -269,7 +266,7 @@
 							"feathr_output_path = f'abfss://{adls_fs_name}@{adls_account}.dfs.core.windows.net/feathr_output'"
 						],
 						"outputs": [],
-						"execution_count": null
+						"execution_count": 24
 					},
 					{
 						"cell_type": "code",
@@ -641,9 +638,9 @@
 				"nodeSizeFamily": "MemoryOptimized",
 				"sparkVersion": "3.1",
 				"libraryRequirements": {
-					"content": "feathr==0.4.0\r\nazure-cli==2.37.0\r\npandavro==1.6.0\r\nscikit-learn==1.1.1\r\naiohttp==3.8.0",
+					"content": "feathr==0.4.0\r\nazure-cli==2.37.0\r\npandavro==1.6.0\r\nscikit-learn==1.1.1\r\naiohttp==3.8.0\r\nazure-eventhub==5.9.0",
 					"filename": "requirements.txt",
-					"time": "2022-05-26T20:15:23.9913386Z"
+					"time": "2022-05-27T13:55:13.2526998Z"
 				},
 				"isComputeIsolationEnabled": false,
 				"sessionLevelPackagesEnabled": false,
