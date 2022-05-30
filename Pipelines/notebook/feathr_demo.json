@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "1f6c2b45-d31e-4a6a-9be5-bf519f34790c"
+				"spark.autotune.trackingId": "5a244ce0-172d-4d32-9c86-e19a67209403"
 			}
 		},
 		"metadata": {
@@ -53,28 +53,42 @@
 				"source": [
 					"resource_prefix = \"feathr12345\""
 				],
-				"execution_count": 41
+				"execution_count": 1
 			},
 			{
 				"cell_type": "code",
 				"source": [
-					"pip install feathr azure-cli  pandavro scikit-learn"
+					"import glob\n",
+					"import os\n",
+					"import tempfile\n",
+					"from datetime import datetime, timedelta\n",
+					"from math import sqrt\n",
+					"\n",
+					"import pandas as pd\n",
+					"import pandavro as pdx\n",
+					"from feathr import FeathrClient\n",
+					"from feathr import BOOLEAN, FLOAT, INT32, ValueType\n",
+					"from feathr import Feature, DerivedFeature, FeatureAnchor\n",
+					"from feathr import BackfillTime, MaterializationSettings\n",
+					"from feathr import FeatureQuery, ObservationSettings\n",
+					"from feathr import RedisSink\n",
+					"from feathr import INPUT_CONTEXT, HdfsSource\n",
+					"from feathr import WindowAggTransformation\n",
+					"from feathr import TypedKey\n",
+					"from sklearn.metrics import mean_squared_error\n",
+					"from sklearn.model_selection import train_test_split\n",
+					"from azure.identity import DefaultAzureCredential\n",
+					"\n",
+					"from azure.keyvault.secrets import SecretClient"
 				],
-				"execution_count": 19
-			},
-			{
-				"cell_type": "code",
-				"source": [
-					"az login --use-device-code"
-				],
-				"execution_count": 25
+				"execution_count": 3
 			},
 			{
 				"cell_type": "code",
 				"metadata": {
 					"jupyter": {
 						"source_hidden": false,
-						"outputs_hidden": false
+						"outputs_hidden": true
 					},
 					"nteract": {
 						"transient": {
@@ -91,34 +105,34 @@
 					"\r\n",
 					"print(installed_packages_list)"
 				],
-				"execution_count": 42
+				"execution_count": 4
 			},
 			{
 				"cell_type": "code",
 				"source": [
-					"import glob\n",
-					"import os\n",
-					"import tempfile\n",
-					"from datetime import datetime, timedelta\n",
-					"from math import sqrt\n",
-					"import pandas as pd\n",
-					"import pandavro as pdx\n",
-					"\n",
-					"from feathr import FeathrClient\n",
-					"from feathr import BOOLEAN, FLOAT, INT32, ValueType\n",
-					"from feathr import Feature, DerivedFeature, FeatureAnchor\n",
-					"from feathr import BackfillTime, MaterializationSettings\n",
-					"from feathr import FeatureQuery, ObservationSettings\n",
-					"from feathr import RedisSink\n",
-					"from feathr import INPUT_CONTEXT, HdfsSource\n",
-					"from feathr import WindowAggTransformation\n",
-					"from feathr import TypedKey\n",
-					"from sklearn.metrics import mean_squared_error\n",
-					"from sklearn.model_selection import train_test_split\n",
-					"from azure.identity import DefaultAzureCredential\n",
-					"from azure.keyvault.secrets import SecretClient"
+					"os.environ['AZURE_CLIENT_ID']='6c53f93e-963f-4e31-b9ce-1a94c673f7db'\r\n",
+					"os.environ['AZURE_TENANT_ID']= '12afdb4f-cfca-4825-8df8-8b71396b8f7c'\r\n",
+					"os.environ['AZURE_CLIENT_SECRET']='~Kf8Q~kdbIItRm2abkwFbmYCGYMMzbADzcqZub0K'"
 				],
-				"execution_count": 23
+				"execution_count": 27
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"jupyter": {
+						"source_hidden": false,
+						"outputs_hidden": false
+					},
+					"nteract": {
+						"transient": {
+							"deleting": false
+						}
+					}
+				},
+				"source": [
+					"~Kf8Q~kdbIItRm2abkwFbmYCGYMMzbADzcqZub0K"
+				],
+				"execution_count": null
 			},
 			{
 				"cell_type": "code",
@@ -132,7 +146,7 @@
 					"key_vault_uri = f\"https://{key_vault_name}.vault.azure.net\"\n",
 					"credential = DefaultAzureCredential(exclude_interactive_browser_credential=False)\n",
 					"client = SecretClient(vault_url=key_vault_uri, credential=credential)\n",
-					"secretName = \"FEATHR-ONLINE-STORE-CONN\"\n",
+					"secretName = \"FEATHR-PREFIX\"\n",
 					"retrieved_secret = client.get_secret(secretName).value\n",
 					"\n",
 					"# Get redis credentials; This is to parse Redis connection string.\n",
@@ -153,7 +167,7 @@
 					"os.environ['feature_registry__purview__purview_name'] = f'{purview_name}'\n",
 					"feathr_output_path = f'abfss://{adls_fs_name}@{adls_account}.dfs.core.windows.net/feathr_output'"
 				],
-				"execution_count": 24
+				"execution_count": 32
 			},
 			{
 				"cell_type": "code",
